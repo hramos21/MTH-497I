@@ -28,20 +28,24 @@ def approxLog(location):
     g2 = np.array(g,dtype="int").reshape(-1)
     print(x1.shape)
     print(g2.shape)
-    logmod = LogisticRegression(solver='liblinear', random_state=0).fit(myline, g2)
+    logmod = LogisticRegression(solver='liblinear', random_state=0, fit_intercept = False).fit(myline, g2)
     #logline.fit
     logmod.classes_
-    print(logmod.intercept_.shape)
+    #interc = logmod.intercept_.shape
+    print(logmod.intercept_)
     print(logmod.coef_.shape)
     prob = logmod.predict_proba(x1)
+    print(prob)
     print(logmod.predict(x1).shape)
+    #print(logmod.predict(x1))
     #print(prob)
     #logline = LogisticRegression().fit(x1, g2)##we have a regression line! 
     ##its not very good tho
     
     
-    plt.plot(x,g)##actual graph
-    #plt.plot(x1, prob)##regression line 
+    #plt.plot(x,g)##actual graph
+    #plt.plot(x1, interc)##regression line 
+    plt.plot(prob[1,:])
     plt.show()
     return
 approxLog(loc1)
