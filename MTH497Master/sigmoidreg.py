@@ -31,27 +31,11 @@ def predictedsig(x, a):
     c = 1.23E2
     y1 = sigmoid(x, a, b, c)
     return y1
-def approxLog(location, concentration):
+def approxLog(location):
     x=pd.read_excel(location, usecols="B")
     x1 = np.array(x).reshape(-1)
-    g3=pd.read_excel(location, usecols="C:CT")
-    nar = g3.to_numpy() #convert g2 to numpy array
-    con = concentration
-    x2 = x.to_numpy()
-    
-    #indices of each column for a given concentration
-    indices = [(con-1)*3+0, (con-1)*3+1, (con-1)*3+2, (con-1)*3+24, (con-1)*3+25, (con-1)*3+26, (con-1)*3+48, 
-                   (con-1)*3+49, (con-1)*3+50, (con-1)*3+72, (con-1)*3+73, (con-1)*3+74]
-    
-    #given one specified assay and concentration, plot the mean of that concentration 
-    means1 = np.mean(nar[:, indices], axis = 1)
-    standev = np.std(nar[:, indices], axis = 1)
-    means2 = np.array(means1)
-    deriv = np.gradient(means2)
-    secondderiv = np.gradient(deriv)
-    minlocation = int(np.where(secondderiv == np.min(secondderiv))[0])
     g=pd.read_excel(location, usecols="C")
-    g2 = np.array(means1).reshape(-1) 
+    g2 = np.array(g).reshape(-1) 
     g2 = [item - (np.min(g2) - 0.0000001) for item in g2] #downshift to 0
     g2 = [item/(np.max(g2)-np.min(g2)) for item in g2] #normalize 
     #g2 = [item if item > 0 else 0.0000001 for item in g2] #if item is exactly zero, make it not that
@@ -81,11 +65,11 @@ def approxLog(location, concentration):
     
      
     print(error) #standard error
-    yerr = .1 + .2*np.sqrt(x)
-    xerr = .1 + yerr
-    plt.figure()
-    plt.errorbar(x, y, xerr, yerr)
-    plt.title("simple errorbars")
+    #yerr = .1 + .2*np.sqrt(x)
+    #xerr = .1 + yerr
+    #plt.figure()
+    #plt.errorbar(x, y, xerr, yerr)
+    #plt.title("simple errorbars")
     #print(errorpre) #standard error
     #logmod = LogisticRegression().fit(x1, g2)
     #print(logmod.intercept_)
@@ -103,7 +87,7 @@ def approxLog(location, concentration):
     plt.clf()
     return
 
-approxLog(loc1, 5)
+approxLog(loc1)
 
 ##to do: run prediction of what each rfu would be and compare with actual then r^2
 ##error bars, total relative error
