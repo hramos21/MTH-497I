@@ -7,11 +7,19 @@ Created on Thu Mar 12 09:57:02 2020
 
 from assay import singleWell, allWells, groupWells, concenWells, tripWells
 from regressionfunctions import train, test
+<<<<<<< HEAD
 from approxPol import approxP
 from stddev import stddev
 import pandas as pd
 import numpy as np
 
+=======
+#from approxPol import approxP
+from stddev import stddev
+import pandas as pd
+import matplotlib.pyplot as plt
+import numpy as np
+>>>>>>> df3d405c0a68875ceb8c9d6fea111d0703ca4ce1
 
 loc1 = "Assay1.xlsx"
 loc2 = "Assay2.xlsx"
@@ -22,6 +30,14 @@ loc6 = "Assay6.xlsx"
 loc7 = "Assay7.xlsx"
 
 file = -1 #set file to a random number in order to initialize it
+
+x = pd.read_excel(loc1, usecols="B")
+x = np.array(x).reshape(-1)
+g2 = pd.read_excel(loc1, usecols="C:CT")
+
+#sigresults holds: [a1, a2, b1, b2, c1, c2, error1, error2]
+sigresults = train(x, g2)
+test(x, g2, sigresults)
 
 while file != 'stop':
     file=str(input("Please enter an Assay number\n"))
