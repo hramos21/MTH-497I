@@ -6,8 +6,11 @@ Created on Thu Mar 12 09:57:02 2020
 """
 
 from assay import singleWell, allWells, groupWells, concenWells, tripWells
+from regressionfunctions import train, test
 from approxPol import approxP
 from stddev import stddev
+import pandas as pd
+import numpy as np
 
 
 loc1 = "Assay1.xlsx"
@@ -23,8 +26,17 @@ file = -1 #set file to a random number in order to initialize it
 while file != 'stop':
     file=str(input("Please enter an Assay number\n"))
     if(file == '1'):
-        file=str(input("Please enter which graph you would like to see\n"))
-        if(file == "standard deviation"):
+        file=str(input("Please enter what you would like to see\n"))
+        if(file == 'sigmoid'):
+            x = pd.read_excel(loc1, usecols="B")
+            x = np.array(x).reshape(-1)
+            g2 = pd.read_excel(loc1, usecols="C:CT")
+
+            #sigresults holds: [a1, a2, b1, b2, c1, c2, error1, error2]
+            sigresults = train(x, g2)
+            test(x, g2, sigresults)
+        
+        elif(file == "standard deviation"):
             file2=str(input("Please enter concentration number\n"))
             if(file2 == '1'):
                 stddev(loc1, 1)
@@ -67,7 +79,18 @@ while file != 'stop':
             
     elif(file == '2'):
         file=str(input("Please enter which graph you would like to see\n"))
-        if(file == "standard deviation"):
+        
+        if(file == 'sigmoid'):
+            x = pd.read_excel(loc2, usecols="B")
+            x = np.array(x).reshape(-1)
+            g2 = pd.read_excel(loc2, usecols="C:CT")
+
+            #sigresults holds: [a1, a2, b1, b2, c1, c2, error1, error2]
+            sigresults = train(x, g2)
+            test(x, g2, sigresults)
+        
+        
+        elif(file == "standard deviation"):
             file2=str(input("Please enter concentration number\n"))
             if(file2 == '1'):
                 stddev(loc2, 1)
@@ -109,7 +132,17 @@ while file != 'stop':
             
     elif(file == '3'):
         file=str(input("Please enter which graph you would like to see\n"))
-        if(file == "standard deviation"):
+        
+        if(file == 'sigmoid'):
+            x = pd.read_excel(loc3, usecols="B")
+            x = np.array(x).reshape(-1)
+            g2 = pd.read_excel(loc3, usecols="C:CT")
+
+            #sigresults holds: [a1, a2, b1, b2, c1, c2, error1, error2]
+            sigresults = train(x, g2)
+            test(x, g2, sigresults)
+        
+        elif(file == "standard deviation"):
             file2=str(input("Please enter concentration number\n"))
             if(file2 == '1'):
                 stddev(loc3, 1)
@@ -151,7 +184,17 @@ while file != 'stop':
             
     elif(file == '4'):
         file=str(input("Please enter which graph you would like to see\n"))
-        if(file == "standard deviation"):
+        
+        if(file == 'sigmoid'):
+            x = pd.read_excel(loc4, usecols="B")
+            x = np.array(x).reshape(-1)
+            g2 = pd.read_excel(loc4, usecols="C:CT")
+
+            #sigresults holds: [a1, a2, b1, b2, c1, c2, error1, error2]
+            sigresults = train(x, g2)
+            test(x, g2, sigresults)
+            
+        elif(file == "standard deviation"):
             file2=str(input("Please enter concentration number\n"))
             if(file2 == '1'):
                 stddev(loc4, 1)
@@ -193,7 +236,17 @@ while file != 'stop':
         
     elif(file == '5'):
         file=str(input("Please enter which graph you would like to see\n"))
-        if(file == "standard deviation"):
+        
+        if(file == 'sigmoid'):
+            x = pd.read_excel(loc5, usecols="B")
+            x = np.array(x).reshape(-1)
+            g2 = pd.read_excel(loc5, usecols="C:CT")
+
+            #sigresults holds: [a1, a2, b1, b2, c1, c2, error1, error2]
+            sigresults = train(x, g2)
+            test(x, g2, sigresults)
+        
+        elif(file == "standard deviation"):
             file2=str(input("Please enter concentration number\n"))
             if(file2 == '1'):
                 stddev(loc5, 1)
@@ -235,7 +288,17 @@ while file != 'stop':
         
     elif(file == '6'):
         file=str(input("Please enter which graph you would like to see\n"))
-        if(file == "standard deviation"):
+        
+        if(file == 'sigmoid'):
+            x = pd.read_excel(loc6, usecols="B")
+            x = np.array(x).reshape(-1)
+            g2 = pd.read_excel(loc6, usecols="C:CT")
+
+            #sigresults holds: [a1, a2, b1, b2, c1, c2, error1, error2]
+            sigresults = train(x, g2)
+            test(x, g2, sigresults)
+        
+        elif(file == "standard deviation"):
             file2=str(input("Please enter concentration number\n"))
             if(file2 == '1'):
                 stddev(loc6, 1)
@@ -277,7 +340,17 @@ while file != 'stop':
             
     elif(file == '7'):
         file=str(input("Please enter which graph you would like to see\n"))
-        if(file == "standard deviation"):
+        
+        if(file == 'sigmoid'):
+            x = pd.read_excel(loc7, usecols="B")
+            x = np.array(x).reshape(-1)
+            g2 = pd.read_excel(loc7, usecols="C:CT")
+
+            #sigresults holds: [a1, a2, b1, b2, c1, c2, error1, error2]
+            sigresults = train(x, g2)
+            test(x, g2, sigresults)
+        
+        elif(file == "standard deviation"):
             file2=str(input("Please enter concentration number\n"))
             if(file2 == '1'):
                 stddev(loc7, 1)
