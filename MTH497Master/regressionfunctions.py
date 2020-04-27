@@ -20,6 +20,8 @@ def train(x, g2):
     c2 = [0]*8
     error1 = [0]*8
     error2 = [0]*8
+    #standev1 = [0]*8
+    #standev2 = [0]*8
     #indices of each column for a given concentration
     for con in range (8):
         indices = [(con)*3+0, (con)*3+1, (con)*3+2, (con)*3+24, (con)*3+25, (con)*3+26, (con)*3+48, 
@@ -46,6 +48,10 @@ def test(x,g2, sigresults):
     c2expec = sigresults[5]
     e1expec = sigresults[6]
     e2expec = sigresults[7]
+    e1actual = [0]*96
+    e2actual = [0]*96
+    #standev1ex = sigresults[8]
+    #standev2ex = sigresults[9]
     g2 = g2.to_numpy()
     conc = 0
     for i in range(1, g2.shape[1]):
@@ -57,8 +63,12 @@ def test(x,g2, sigresults):
         phase1, phase2, x1, x2 = section(x, inlist)
         phase1 = normalize(phase1)
         phase2 = normalize(phase2)
-        sigmoidtest(x1, phase1, a1expec[conc], b1expec[conc], c1expec[conc], e1expec[conc])
-
+        dataresult1, e1actual[i] = sigmoidtest(x1, phase1, a1expec[conc], b1expec[conc], c1expec[conc], e1expec[conc])
+        print(dataresult1)
+        #dataresult2 = sigmoidtest(x2, phase2, a2expec[conc], b2expec[conc], c2expec[conc], e2expec[conc])
+    plt.plot(e1actual)
+    plt.title('error for phase 1')
+    plt.show()
 def section(x, inlist):
     inlist = np.array(inlist)
     #given one specified assay and concentration, plot the mean of that concentration
@@ -135,10 +145,12 @@ def sigmoidtrain(x, inlist):
     for row in range (0,len(inlist)):
         error += (inlist[row] - y[row])**2
     error = np.sqrt(error/len(inlist))
+    #standev = np.std(inlist)
     return error, a, b, c
 
 def sigmoidtest(x, inlist, a,b,c,expectederror):
     #x = np.linspace(0, len(inlist), 1)
+    print(len(inlist))
     y = sigmoid(x,a,b,c)
     plt.plot(y)
     plt.title('sigmoidtest')
@@ -146,10 +158,12 @@ def sigmoidtest(x, inlist, a,b,c,expectederror):
     error=0
     for row in range (0,len(inlist)):
         error += (inlist[row] - y[row])**2
+    if len(inlist) != 0:
+        error = np.sqrt(error/len(inlist))
         
-    error = np.sqrt(error/len(inlist))
-	
-    if error < expectederror:
-        return 'GOOD DATA!'
-    return 'Bad data'
+    print(error)
+    print(expectederror)
+    if error < expectederror + .02:
+        return 'GOOD DATA!', error
+    return 'Bad data', error
 
