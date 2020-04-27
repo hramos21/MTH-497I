@@ -68,8 +68,8 @@ def test(x,g2, sigresults):
         dataresult1, e1actual[i], diferror1[i] = sigmoidtest(x1, phase1, a1expec[conc], b1expec[conc], c1expec[conc], e1expec[conc])
         print(dataresult1)
         
-        dataresult2, e2actual[i], diferror2[i] = sigmoidtest(x2, phase2, a2expec[conc], b2expec[conc], c2expec[conc], e2expec[conc])
-        print(dataresult2)
+        #dataresult2, e2actual[i], diferror2[i] = sigmoidtest(x2, phase2, a2expec[conc], b2expec[conc], c2expec[conc], e2expec[conc])
+        #print(dataresult2)
     plt.plot(diferror1)
     plt.plot(e1actual)
     plt.title('error for phase 1')
@@ -150,19 +150,22 @@ def sigmoidtrain(x, inlist):
     a = parameters[0]
     b = parameters[1]
     c = parameters[2]
+    plt.plot(y)
+    plt.title('Training Sigmoid for Averaged Concentration')
+    plt.show()
     error = 0
     for row in range (0,len(inlist)):
-        error += (inlist[row] - y[row])**2
+        error += (y[row] - inlist[row])**2
     error = np.sqrt(error/len(inlist))
     #standev = np.std(inlist)
     return error, a, b, c
 
 def sigmoidtest(x, inlist, a,b,c,expectederror):
     #x = np.linspace(0, len(inlist), 1)
-    print(len(inlist))
+    #print(len(inlist))
     y = sigmoid(x,a,b,c)
     plt.plot(y)
-    plt.title('sigmoidtest')
+    plt.title('Testing Sigmoid for Specific Well')
     plt.show()
     error=0
     for row in range (0,len(inlist)):
@@ -174,7 +177,9 @@ def sigmoidtest(x, inlist, a,b,c,expectederror):
     else:
         return 'Bad data', error, diferror
     diferror = error-expectederror
+    print("Error for current well")
     print(error)
+    print("Error for ideal well")
     print(expectederror)
     if error < expectederror + .02:
         return 'GOOD DATA!', error, diferror
