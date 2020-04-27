@@ -50,6 +50,8 @@ def test(x,g2, sigresults):
     e2expec = sigresults[7]
     e1actual = [0]*96
     e2actual = [0]*96
+    diferror1 = [0]*96
+    diferror2 = [0]*96
     #standev1ex = sigresults[8]
     #standev2ex = sigresults[9]
     g2 = g2.to_numpy()
@@ -63,11 +65,18 @@ def test(x,g2, sigresults):
         phase1, phase2, x1, x2 = section(x, inlist)
         phase1 = normalize(phase1)
         phase2 = normalize(phase2)
-        dataresult1, e1actual[i] = sigmoidtest(x1, phase1, a1expec[conc], b1expec[conc], c1expec[conc], e1expec[conc])
+        dataresult1, e1actual[i], diferror1[i] = sigmoidtest(x1, phase1, a1expec[conc], b1expec[conc], c1expec[conc], e1expec[conc])
         print(dataresult1)
-        #dataresult2 = sigmoidtest(x2, phase2, a2expec[conc], b2expec[conc], c2expec[conc], e2expec[conc])
+        
+        dataresult2, e2actual[i], diferror2[i] = sigmoidtest(x2, phase2, a2expec[conc], b2expec[conc], c2expec[conc], e2expec[conc])
+        print(dataresult2)
+    plt.plot(diferror1)
     plt.plot(e1actual)
     plt.title('error for phase 1')
+    plt.show()
+    plt.plot(diferror2)
+    plt.plot(e2actual)
+    plt.title('error for phase 2')
     plt.show()
 def section(x, inlist):
     inlist = np.array(inlist)
@@ -158,12 +167,16 @@ def sigmoidtest(x, inlist, a,b,c,expectederror):
     error=0
     for row in range (0,len(inlist)):
         error += (inlist[row] - y[row])**2
+
+    diferror=0
     if len(inlist) != 0:
         error = np.sqrt(error/len(inlist))
-        
+    else:
+        return 'Bad data', error, diferror
+    diferror = error-expectederror
     print(error)
     print(expectederror)
     if error < expectederror + .02:
-        return 'GOOD DATA!', error
-    return 'Bad data', error
+        return 'GOOD DATA!', error, diferror
+    return 'Bad data', error, diferror
 
